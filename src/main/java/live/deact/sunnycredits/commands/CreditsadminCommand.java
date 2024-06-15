@@ -18,8 +18,7 @@ public class CreditsadminCommand implements CommandExecutor {
     @Override
     public boolean onCommand(@NotNull CommandSender sender, @NotNull Command command, @NotNull String label, String[] args) {
         if (args.length == 0) {
-            sender.sendMessage(plugin.getMessage("messages.usage", "%usage%", "/creditsadmin <give|take|set|reset|delete> [player] [amount]"));
-
+            sender.sendMessage(plugin.getMessage("messages.admin_usage"));
             return true;
         }
 
@@ -72,8 +71,12 @@ public class CreditsadminCommand implements CommandExecutor {
         } else if (args[0].equalsIgnoreCase("delete")) {
             plugin.getDatabaseManager().resetDatabase();
             sender.sendMessage(plugin.getMessage("messages.database_reset"));
+        } else if (args[0].equalsIgnoreCase("reload")) {
+            plugin.reloadLangConfig();
+            plugin.reloadShopConfig();
+            sender.sendMessage(plugin.getMessage("messages.config_reloaded"));
         } else {
-            sender.sendMessage(plugin.getMessage("messages.usage", "%usage%", "/creditsadmin <give|take|set|reset|delete> [player] [amount]"));
+            sender.sendMessage(plugin.getMessage("messages.admin_usage"));
         }
 
         return true;

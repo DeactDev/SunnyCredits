@@ -18,7 +18,6 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
 import java.util.List;
-import java.util.Objects;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -90,7 +89,38 @@ public class DynamicGUI implements InventoryProvider {
                 }
             }));
         });
+        addFillerItems(contents, shopConfig, guiName);
     }
+    private void addFillerItems(InventoryContents contents, FileConfiguration shopConfig, String guiName) {
+        String materialName = shopConfig.getString(guiName + ".filler.material", "BLACK_STAINED_GLASS_PANE");
+        String name = shopConfig.getString(guiName + ".filler.name", "&7");
+        List<String> lore = shopConfig.getStringList(guiName + ".filler.lore").stream()
+                .map(line -> ChatColor.translateAlternateColorCodes('&', line))
+                .collect(Collectors.toList());
+
+        Material material = Material.getMaterial(materialName);
+        if (material == null) {
+            material = Material.BLACK_STAINED_GLASS_PANE;
+        }
+
+        ItemStack fillerItem = new ItemStack(material);
+        ItemMeta meta = fillerItem.getItemMeta();
+        meta.setDisplayName(ChatColor.translateAlternateColorCodes('&', name));
+        meta.setLore(lore);
+        fillerItem.setItemMeta(meta);
+
+        ClickableItem filler = ClickableItem.empty(fillerItem);
+
+        for (int row = 0; row < contents.inventory().getRows(); row++) {
+            for (int col = 0; col < contents.inventory().getColumns(); col++) {
+                SlotPos pos = SlotPos.of(row, col);
+                if (!contents.get(pos).isPresent()) {
+                    contents.set(pos, filler);
+                }
+            }
+        }
+    }
+
 
     @Override
     public void update(Player player, InventoryContents contents) {
@@ -99,7 +129,8 @@ public class DynamicGUI implements InventoryProvider {
 
     public static void open(SunnyCredits plugin, Player player, String guiName) {
         FileConfiguration shopConfig = plugin.getShopConfig();
-        Component title = LegacyComponentSerializer.legacyAmpersand().deserialize(Objects.requireNonNull(shopConfig.getString(guiName + ".title")));
+        Component title = LegacyComponentSerializer.legacyAmpersand().deserialize(shopConfig.getString(guiName + ".title"));
+
         SmartInventory.builder()
                 .provider(new DynamicGUI(plugin, guiName))
                 .size(shopConfig.getInt(guiName + ".rows"), 9)

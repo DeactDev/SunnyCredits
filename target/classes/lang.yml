@@ -2,6 +2,7 @@ messages:
   balance: "<green>Your balance: <gold>%balance% credits</gold>"
   no_permission: "<red>You do not have permission to use this command.</red>"
   usage: "<red>Usage: /credits [Shop]</red>"
+  admin_usage: "&c/creditsadmin <give|take|set|reset|delete|reload> [player] [amount]"
   player_not_found: "<red>Player not found.</red>"
   given_credits: "<green>Given %amount% credits to %player%</green>"
   taken_credits: "<green>Taken %amount% credits from %player%</green>"

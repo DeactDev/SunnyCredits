@@ -16,7 +16,6 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
 import java.util.List;
-import java.util.Objects;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -81,8 +80,37 @@ public class HomeGUI implements InventoryProvider {
                 }
             }));
         });
+        addFillerItems(contents, shopConfig);
     }
+    private void addFillerItems(InventoryContents contents, FileConfiguration shopConfig) {
+        String materialName = shopConfig.getString("home-gui.filler.material", "BLACK_STAINED_GLASS_PANE");
+        String name = shopConfig.getString("home-gui.filler.name", "&7");
+        List<String> lore = shopConfig.getStringList("home-gui.filler.lore").stream()
+                .map(line -> ChatColor.translateAlternateColorCodes('&', line))
+                .collect(Collectors.toList());
 
+        Material material = Material.getMaterial(materialName);
+        if (material == null) {
+            material = Material.BLACK_STAINED_GLASS_PANE;
+        }
+
+        ItemStack fillerItem = new ItemStack(material);
+        ItemMeta meta = fillerItem.getItemMeta();
+        meta.setDisplayName(ChatColor.translateAlternateColorCodes('&', name));
+        meta.setLore(lore);
+        fillerItem.setItemMeta(meta);
+
+        ClickableItem filler = ClickableItem.empty(fillerItem);
+
+        for (int row = 0; row < contents.inventory().getRows(); row++) {
+            for (int col = 0; col < contents.inventory().getColumns(); col++) {
+                SlotPos pos = SlotPos.of(row, col);
+                if (!contents.get(pos).isPresent()) {
+                    contents.set(pos, filler);
+                }
+            }
+        }
+    }
     @Override
     public void update(Player player, InventoryContents contents) {
         // No periodic update needed for now
@@ -90,7 +118,8 @@ public class HomeGUI implements InventoryProvider {
 
     public static void open(SunnyCredits plugin, Player player) {
         FileConfiguration shopConfig = plugin.getShopConfig();
-        Component title = LegacyComponentSerializer.legacyAmpersand().deserialize(Objects.requireNonNull(shopConfig.getString("home-gui.title")));
+        Component title = LegacyComponentSerializer.legacyAmpersand().deserialize(shopConfig.getString("home-gui.title"));
+
         SmartInventory.builder()
                 .provider(new HomeGUI(plugin))
                 .size(shopConfig.getInt("home-gui.rows"), 9)

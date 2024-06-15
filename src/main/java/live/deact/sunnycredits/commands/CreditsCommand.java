@@ -1,11 +1,7 @@
 package live.deact.sunnycredits.commands;
 
-import live.deact.sunnycredits.guihandler.HomeGUI;
 import live.deact.sunnycredits.SunnyCredits;
-import net.kyori.adventure.audience.Audience;
-import net.kyori.adventure.text.Component;
-import net.kyori.adventure.text.TextComponent;
-import net.kyori.adventure.text.minimessage.MiniMessage;
+import live.deact.sunnycredits.guihandler.HomeGUI;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
@@ -14,7 +10,6 @@ import org.jetbrains.annotations.NotNull;
 
 import java.text.NumberFormat;
 import java.util.Locale;
-import java.util.Objects;
 
 public class CreditsCommand implements CommandExecutor {
 

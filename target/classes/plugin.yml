@@ -8,8 +8,10 @@ commands:
   credits:
     description: Shows the balance
     usage: /credits [shop]
+    tab-completer: live.deact.sunnycredits.commands.TabComplete
   creditsadmin:
     description: Admin commands for currency
+    tab-completer: live.deact.sunnycredits.commands.TabComplete
 permissions:
   credits.admin:
     description: Allows access to admin commands

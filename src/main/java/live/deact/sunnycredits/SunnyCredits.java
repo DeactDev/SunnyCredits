@@ -1,10 +1,11 @@
 package live.deact.sunnycredits;
 
 import dev.partyhat.inventory.InventoryManager;
-import live.deact.sunnycredits.managers.DatabaseManager;
-import live.deact.sunnycredits.listeners.PlayerJoinListener;
 import live.deact.sunnycredits.commands.CreditsCommand;
 import live.deact.sunnycredits.commands.CreditsadminCommand;
+import live.deact.sunnycredits.listeners.PlayerJoinListener;
+import live.deact.sunnycredits.listeners.TabComplete;
+import live.deact.sunnycredits.managers.DatabaseManager;
 import live.deact.sunnycredits.managers.PlaceholderManager;
 import org.bukkit.ChatColor;
 import org.bukkit.configuration.file.FileConfiguration;
@@ -45,8 +46,11 @@ public class SunnyCredits extends JavaPlugin {
         getServer().getPluginManager().registerEvents(new PlayerJoinListener(this), this);
 
         // Register commands
+        TabComplete tabCompleter = new TabComplete(this);
         this.getCommand("credits").setExecutor(new CreditsCommand(this));
+        this.getCommand("credits").setTabCompleter(tabCompleter);
         this.getCommand("creditsadmin").setExecutor(new CreditsadminCommand(this));
+        this.getCommand("creditsadmin").setTabCompleter(tabCompleter);
 
         // Initialize Adventure API
 
