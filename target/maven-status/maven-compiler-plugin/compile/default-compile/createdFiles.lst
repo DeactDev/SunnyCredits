@@ -1,8 +1,0 @@
-live\deact\sunnycredits\managers\DatabaseManager.class
-live\deact\sunnycredits\commands\CreditsCommand.class
-live\deact\sunnycredits\SunnyCredits.class
-live\deact\sunnycredits\listeners\PlayerJoinListener.class
-live\deact\sunnycredits\commands\CreditsadminCommand.class
-live\deact\sunnycredits\guihandler\DynamicGUI.class
-live\deact\sunnycredits\guihandler\HomeGUI.class
-live\deact\sunnycredits\managers\PlaceholderManager.class
