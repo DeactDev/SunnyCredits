@@ -6,7 +6,7 @@
 
     <groupId>live.deact</groupId>
     <artifactId>SunnyCredits</artifactId>
-    <version>0.1-ALPHA</version>
+    <version>1.0</version>
     <packaging>jar</packaging>
 
     <name>SunnyCredits</name>
@@ -70,6 +70,11 @@
             <id>github</id>
             <name>GitHub OWNER Apache Maven Packages</name>
             <url>https://maven.pkg.github.com/partyhatgg/smartinvs</url>
+        </repository>
+        <repository>
+            <id>codemc-repo</id>
+            <url>https://repo.codemc.io/repository/maven-public/</url>
+            <layout>default</layout>
         </repository>
     </repositories>
 

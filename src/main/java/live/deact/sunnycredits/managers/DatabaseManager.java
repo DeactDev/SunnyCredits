@@ -39,6 +39,7 @@ public class DatabaseManager {
         }
     }
 
+
     public double getBalance(UUID uuid) {
         try (PreparedStatement statement = connection.prepareStatement("SELECT balance FROM credits WHERE uuid = ?")) {
             statement.setString(1, uuid.toString());
